@@ -85,6 +85,7 @@ header {
   height: 105px;
   width: 105px;
   transition: 0.2s;
+  cursor: pointer;
 }
 
 .history:hover {
