@@ -200,12 +200,12 @@ var historyWinner = String($('#winner').attr('result'));
       (game.endGame == 1 || game.endGameH == 1)) {
         $('#winner').empty();
         $('#winner').append(historyWinner);
-        game.endGameH = 0;
-        if (historyWinner == 'X wins!') {
+        if (historyWinner == 'X wins!' && game.endGameH == 1) {
           game.scoreboardX += 1;
-        } else if (historyWinner == 'O wins!') {
+        } else if (historyWinner == 'O wins!' && game.endGameH == 1) {
           game.scoreboardO += 1;
         }
+        game.endGameH = 0;
         $('#scoreboard article').empty();
         $('#scoreboard aside').empty();
         $('#scoreboard article').append('X: ' + game.scoreboardX).attr('score', game.scoreboardX);
