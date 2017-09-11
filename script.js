@@ -1,216 +1,256 @@
-
 // Tic Tac Toe Variables
-var game = {};
-// Is it a 'X' or a 'O'
-game.state = 'X';
+var grandGame = {
+// TUrn container
+  state: 'X',
 // Array that cointains all 9 game divs
-game.divs = [];
-// Array that cointains all the actual 'X' and 'O'
-game.divsHisS = [];
-// Triggers 'Tie' if necessary
-game.tie = 0;
+  divs: [],
+// Array that cointains all the actual 'X' and 'O' on board
+  divsHisS: [],
+// // Triggers 'Tie' if necessary
+  tie: 0,
 // EndGame
-game.endGame = 0;
+  endGame: 0,
 // EndGame history
-game.endGameH = 0;
-// Scoreboard X
-game.scoreboardX = 0;
-// Scoreboard O
-game.scoreboardO = 0;
-// Clicked history board
-game.historyClicked = 0;
+  endGameH: 0,
+// Scoreboard cointainer for X wins and O wins
+  scoreboardX: parseInt($('.x-score').attr('score')),
+  scoreboardO: parseInt($('.o-score').attr('score')),
+// History board clicked
+  historyClicked: 0,
+  currentGame: 0,
+  historyWinner: 0
+};
+// Current number of games
+var nrOfBoards = 1;
+// First instance of grand game
+var newGame = jQuery.extend(true, {}, grandGame);
+// All games holder
+var allGames = [];
+// Add first instance of game logic
+allGames.push(newGame);
 
-
-game.scoreboardX = parseInt($('#scoreboard article').attr('score'));
-game.scoreboardO = parseInt($('#scoreboard aside').attr('score'));
-
-
-
-$('#tic-tac-c div').click(function() {
-  if (game.divsHisS.length > 0) {
-    game.historyClicked.children().css({'background-color': ''})
-    game.historyClicked.nextAll().remove();
-    game.divsHisS = [];
+$('body').on('click', '.tic-tac-squares', function() {
+// Get number of game clicked
+  var getCurrentGame = parseInt($(this).parents().parents().attr('game'));
+// All games
+  console.log(allGames);
+  if (allGames[(getCurrentGame)].divsHisS.length > 0) {
+    allGames[(getCurrentGame)].historyClicked.children().css({'background-color': ''})
+    allGames[(getCurrentGame)].historyClicked.nextAll().remove();
+    allGames[(getCurrentGame)].divsHisS = [];
   }
-  if(game.endGame == 0) {
-
-
+  if(allGames[(getCurrentGame)].endGame == 0) {
+// Prevent Winner alert to return undifined or x/o winns if allGames[(getCurrentGame)] isn't over
+  $(this).parents().siblings('header').children('.scoreboard-c').children('.winner').attr('result', '');
   //   is the null state
     if($(this).attr('state') === '') {
-      game.tie += 1;
-      game.divs = [];
-      if (game.state == 'O') {
+      allGames[(getCurrentGame)].tie += 1;
+      allGames[(getCurrentGame)].divs = [];
+      if (allGames[(getCurrentGame)].state == 'O') {
         $(this).append('O');
         $(this).attr('state', 'O');
-        game.state = 'X';
+        allGames[(getCurrentGame)].state = 'X';
       } else {
         $(this).append('X');
         $(this).attr('state', 'X');
-        game.state = 'O';
+        allGames[(getCurrentGame)].state = 'O';
       }
-
-    //Iterate through the 9 game divs
-      $("#tic-tac-c").children().each(function(n) {
-        game.divs.push($(this).attr('state'));
+    allGames[(getCurrentGame)].divs = [];
+// Get state of all game divs
+      $(this).parents().children('.tic-tac-squares').each(function(n) {
+        allGames[(getCurrentGame)].divs.push($(this).attr('state'));
       });
-      if (game.divs[0] == 'X' && game.divs[1] == 'X' && game.divs[2] == 'X' ||
-          game.divs[3] == 'X' && game.divs[4] == 'X' && game.divs[5] == 'X' ||
-          game.divs[6] == 'X' && game.divs[7] == 'X' && game.divs[8] == 'X' ||
-          game.divs[0] == 'X' && game.divs[3] == 'X' && game.divs[6] == 'X' ||
-          game.divs[1] == 'X' && game.divs[4] == 'X' && game.divs[7] == 'X' ||
-          game.divs[2] == 'X' && game.divs[5] == 'X' && game.divs[8] == 'X' ||
-          game.divs[2] == 'X' && game.divs[4] == 'X' && game.divs[6] == 'X' ||
-          game.divs[0] == 'X' && game.divs[4] == 'X' && game.divs[8] == 'X') {
-        $('#winner').append('X wins!').attr('result', 'X wins!');
+      if (allGames[(getCurrentGame)].divs[0] == 'X' && allGames[(getCurrentGame)].divs[1] == 'X' && allGames[(getCurrentGame)].divs[2] == 'X' ||
+          allGames[(getCurrentGame)].divs[3] == 'X' && allGames[(getCurrentGame)].divs[4] == 'X' && allGames[(getCurrentGame)].divs[5] == 'X' ||
+          allGames[(getCurrentGame)].divs[6] == 'X' && allGames[(getCurrentGame)].divs[7] == 'X' && allGames[(getCurrentGame)].divs[8] == 'X' ||
+          allGames[(getCurrentGame)].divs[0] == 'X' && allGames[(getCurrentGame)].divs[3] == 'X' && allGames[(getCurrentGame)].divs[6] == 'X' ||
+          allGames[(getCurrentGame)].divs[1] == 'X' && allGames[(getCurrentGame)].divs[4] == 'X' && allGames[(getCurrentGame)].divs[7] == 'X' ||
+          allGames[(getCurrentGame)].divs[2] == 'X' && allGames[(getCurrentGame)].divs[5] == 'X' && allGames[(getCurrentGame)].divs[8] == 'X' ||
+          allGames[(getCurrentGame)].divs[2] == 'X' && allGames[(getCurrentGame)].divs[4] == 'X' && allGames[(getCurrentGame)].divs[6] == 'X' ||
+          allGames[(getCurrentGame)].divs[0] == 'X' && allGames[(getCurrentGame)].divs[4] == 'X' && allGames[(getCurrentGame)].divs[8] == 'X') {
+        $(this).parents().siblings('header').children('.scoreboard-c').children('.winner').append('X wins!').attr('result', 'X wins!');
         //Make Board unclickable
-        game.endGame = 1;
-        game.scoreboardX = parseInt($('#scoreboard article').attr('score'));
-        game.scoreboardX += 1;
-        $('#scoreboard article').empty()
-          .append('X: ' + game.scoreboardX).attr('score', game.scoreboardX);
+        allGames[(getCurrentGame)].endGame = 1;
+        allGames[(getCurrentGame)].scoreboardX = parseInt($(this).parents().siblings('header').children('.scoreboard-c').children('.scoreboard').children('.x-score').attr('score'));
+        allGames[(getCurrentGame)].scoreboardX += 1;
+        $(this).parents().siblings('header').children('.scoreboard-c').children('.scoreboard').children('.x-score').empty()
+          .append('X: ' + allGames[(getCurrentGame)].scoreboardX).attr('score', allGames[(getCurrentGame)].scoreboardX);
       } else if
-         (game.divs[0] == 'O' && game.divs[1] == 'O' && game.divs[2] == 'O' ||
-          game.divs[3] == 'O' && game.divs[4] == 'O' && game.divs[5] == 'O' ||
-          game.divs[6] == 'O' && game.divs[7] == 'O' && game.divs[8] == 'O' ||
-          game.divs[0] == 'O' && game.divs[3] == 'O' && game.divs[6] == 'O' ||
-          game.divs[1] == 'O' && game.divs[4] == 'O' && game.divs[7] == 'O' ||
-          game.divs[2] == 'O' && game.divs[5] == 'O' && game.divs[8] == 'O' ||
-          game.divs[2] == 'O' && game.divs[4] == 'O' && game.divs[6] == 'O' ||
-          game.divs[0] == 'O' && game.divs[4] == 'O' && game.divs[8] == 'O') {
-        $('#winner').append('O wins!').attr('result', 'O wins!');
+         (allGames[(getCurrentGame)].divs[0] == 'O' && allGames[(getCurrentGame)].divs[1] == 'O' && allGames[(getCurrentGame)].divs[2] == 'O' ||
+          allGames[(getCurrentGame)].divs[3] == 'O' && allGames[(getCurrentGame)].divs[4] == 'O' && allGames[(getCurrentGame)].divs[5] == 'O' ||
+          allGames[(getCurrentGame)].divs[6] == 'O' && allGames[(getCurrentGame)].divs[7] == 'O' && allGames[(getCurrentGame)].divs[8] == 'O' ||
+          allGames[(getCurrentGame)].divs[0] == 'O' && allGames[(getCurrentGame)].divs[3] == 'O' && allGames[(getCurrentGame)].divs[6] == 'O' ||
+          allGames[(getCurrentGame)].divs[1] == 'O' && allGames[(getCurrentGame)].divs[4] == 'O' && allGames[(getCurrentGame)].divs[7] == 'O' ||
+          allGames[(getCurrentGame)].divs[2] == 'O' && allGames[(getCurrentGame)].divs[5] == 'O' && allGames[(getCurrentGame)].divs[8] == 'O' ||
+          allGames[(getCurrentGame)].divs[2] == 'O' && allGames[(getCurrentGame)].divs[4] == 'O' && allGames[(getCurrentGame)].divs[6] == 'O' ||
+          allGames[(getCurrentGame)].divs[0] == 'O' && allGames[(getCurrentGame)].divs[4] == 'O' && allGames[(getCurrentGame)].divs[8] == 'O') {
+
+
+    $(this).parents().siblings('header').children('.scoreboard-c').children('.winner').append('O wins!').attr('result', 'O wins!');
         //Make Board unclickable
-        game.endGame = 1;
-        game.scoreboardO = parseInt($('#scoreboard aside').attr('score'));
-        game.scoreboardO += 1;
-        $('#scoreboard aside').empty()
-          .append('O: ' + game.scoreboardO).attr('score', game.scoreboard0);
-      } else if (game.tie == 9) {
-        $('#winner').append('Tie').attr('result', 'Tie');
-    // In case of win at last move
-        game.tie += 100;
-        game.endGame = 1;
+        allGames[(getCurrentGame)].endGame = 1;
+        allGames[(getCurrentGame)].scoreboardO = parseInt($(this).parents().siblings('header').children('.scoreboard-c').children('.scoreboard').children('.o-score').attr('score'));
+        allGames[(getCurrentGame)].scoreboardO += 1;
+
+        $(this).parents().siblings('header').children('.scoreboard-c').children('.scoreboard').children('.o-score').empty()
+          .append('O: ' + allGames[(getCurrentGame)].scoreboardO).attr('score', allGames[(getCurrentGame)].scoreboardO);
+      } else if (allGames[(getCurrentGame)].tie == 9) {
+        $(this).parents().siblings('header').children('.scoreboard-c').children('.winner').append('Tie').attr('result', 'Tie');
+// In case of win at last move
+        allGames[(getCurrentGame)].tie += 100;
+        allGames[(getCurrentGame)].endGame = 1;
       }
-      // console.log(
-      //   game.divs[0], game.divs[1], game.divs[2],
-      //   game.divs[3], game.divs[4], game.divs[5],
-      //   game.divs[6], game.divs[7], game.divs[8]
-      // );
-// Replace 1 / 0 /  '' with X / O / ''
-      for (let i = 0; i < game.divs.length; i++) {
-        if (game.divs[i] ==  '') {
-          game.divs[i] = '';
-        } else if (game.divs[i] == 'O') {
-          game.divs[i] = 'O';
-        } else if (game.divs[i] == 'X') {
-          game.divs[i] = 'X';
-        }
-      }
-    // Get array of game results
-      $("#history-c").append(
+// Add state to stateh attribute
+// Add state as text
+      $(this).parents().siblings(".history-c")
+      .append(
         '<div class="history">'+
-          '<div stateh ='+ game.divs[0] + '>' + game.divs[0] + '</div>' +
-          '<div stateh ='+ game.divs[1] + '>' + game.divs[1] + '</div>' +
-          '<div stateh ='+ game.divs[2] + '>' + game.divs[2] + '</div>' +
-          '<div stateh ='+ game.divs[3] + '>' + game.divs[3] + '</div>' +
-          '<div stateh ='+ game.divs[4] + '>' + game.divs[4] + '</div>' +
-          '<div stateh ='+ game.divs[5] + '>' + game.divs[5] + '</div>' +
-          '<div stateh ='+ game.divs[6] + '>' + game.divs[6] + '</div>' +
-          '<div stateh ='+ game.divs[7] + '>' + game.divs[7] + '</div>' +
-          '<div stateh ='+ game.divs[8] + '>' + game.divs[8] + '</div>' +
+          '<div stateh ='+ allGames[(getCurrentGame)].divs[0] + '>' + allGames[(getCurrentGame)].divs[0] + '</div>' +
+          '<div stateh ='+ allGames[(getCurrentGame)].divs[1] + '>' + allGames[(getCurrentGame)].divs[1] + '</div>' +
+          '<div stateh ='+ allGames[(getCurrentGame)].divs[2] + '>' + allGames[(getCurrentGame)].divs[2] + '</div>' +
+          '<div stateh ='+ allGames[(getCurrentGame)].divs[3] + '>' + allGames[(getCurrentGame)].divs[3] + '</div>' +
+          '<div stateh ='+ allGames[(getCurrentGame)].divs[4] + '>' + allGames[(getCurrentGame)].divs[4] + '</div>' +
+          '<div stateh ='+ allGames[(getCurrentGame)].divs[5] + '>' + allGames[(getCurrentGame)].divs[5] + '</div>' +
+          '<div stateh ='+ allGames[(getCurrentGame)].divs[6] + '>' + allGames[(getCurrentGame)].divs[6] + '</div>' +
+          '<div stateh ='+ allGames[(getCurrentGame)].divs[7] + '>' + allGames[(getCurrentGame)].divs[7] + '</div>' +
+          '<div stateh ='+ allGames[(getCurrentGame)].divs[8] + '>' + allGames[(getCurrentGame)].divs[8] + '</div>' +
         '</div>'
       );
     }
   }
 });
 // RESET ALL
-$('#button').click(function() {
-  $("#tic-tac-c").children().attr('state',  '').empty();
-  $("#history-c").empty();
-  $('#winner').empty();
-  $('#tic-tac-c div').on('click');
-  // startGame();
-  game.endGame = 0;
-  game.tie = 0;
-  game.state = 'X';
+$('body').on('click', '.reset', function() {
+  var getCurrentGame = parseInt($(this).parents().parents().parents().attr('game'));
+  $(this).parents().parents().siblings('.tic-tac-c').children().attr('state',  '').empty();
+  $(this).parents().parents().siblings('.history-c').empty();
+  $(this).parents().siblings('.scoreboard-c').children('.winner').empty();
+// Disables on click for game divs
+  allGames[(getCurrentGame)].endGame = 0;
+// Resets tied game calculator
+  allGames[(getCurrentGame)].tie = 0;
+// First move = X
+  allGames[(getCurrentGame)].state = 'X';
 });
-//
-$('#history-c').on('click', '.history', function(e) {
-
-  game.historyClicked = $(this, '.history');
-  game.tie = 0;
-  game.divs = [];
-  game.divsHisS = [];
-  game.historyClicked.children().css({'background-color': 'turquoise'});
-  game.historyClicked.nextAll().children().css({'background-color': 'rgb(255, 151, 61)'});
-  game.historyClicked.prevAll().children().css({'background-color': ''});
+$('body').on('click', '.history', function(e) {
+  var getCurrentGame = parseInt($(this).parents().parents().attr('game'));
+  allGames[(getCurrentGame)].historyClicked = $(this, '.history');
+  allGames[(getCurrentGame)].tie = 0;
+  allGames[(getCurrentGame)].divs = [];
+  allGames[(getCurrentGame)].divsHisS = [];
+  allGames[(getCurrentGame)].historyClicked.children().css({'background-color': 'turquoise'});
+  allGames[(getCurrentGame)].historyClicked.nextAll().children().css({'background-color': 'rgb(255, 151, 61)'});
+  allGames[(getCurrentGame)].historyClicked.prevAll().children().css({'background-color': ''});
   for (let i = 0; i < $(this, '.history').children().length; i++) {
-    // console.log(i);
-    game.divs.push($(this, '.history').children(':nth-child('+ (i+1) +')').attr('stateh'));
-    // console.log(game.divs[i]);
-    $('#tic-tac-c').children(':nth-child('+ (i+1) +')').empty();
-    $('#tic-tac-c').children(':nth-child('+ (i+1) +')').append(game.divs[i]);
-    $('#tic-tac-c').children(':nth-child('+ (i+1) +')').attr('state', String(game.divs[i]));
+    allGames[(getCurrentGame)].divs.push($(this, '.history').children(':nth-child('+ (i+1) +')').attr('stateh'));
+    $(this).parents().siblings('.tic-tac-c').children(':nth-child('+ (i+1) +')').empty();
+    $(this).parents().siblings('.tic-tac-c').children(':nth-child('+ (i+1) +')').append(allGames[(getCurrentGame)].divs[i]);
+    $(this).parents().siblings('.tic-tac-c').children(':nth-child('+ (i+1) +')').attr('state', String(allGames[(getCurrentGame)].divs[i]));
   }
-
-//GET game.state, who's turn is it
-  for (let i = 0; i < game.divs.length; i++) {
-    if (game.divs[i].length == '1') {
-      game.tie += 1;
-      game.divsHisS.push(i);
+// Get all moves
+  for (let i = 0; i < allGames[(getCurrentGame)].divs.length; i++) {
+    if (allGames[(getCurrentGame)].divs[i].length == '1') {
+      allGames[(getCurrentGame)].tie += 1;
+      allGames[(getCurrentGame)].divsHisS.push(i);
     }
   }
-  if((game.divsHisS.length % 2) == 0) {
-    game.state = 'X';
-  } else if((game.divsHisS.length % 2) == 1) {
-    game.state = 'O';
+// Find out whos turn is next
+  if((allGames[(getCurrentGame)].divsHisS.length % 2) == 0) {
+    allGames[(getCurrentGame)].state = 'X';
+  } else if((allGames[(getCurrentGame)].divsHisS.length % 2) == 1) {
+    allGames[(getCurrentGame)].state = 'O';
   }
-
-
-
-
-
-
-
-
-
-var historyWinner = String($('#winner').attr('result'));
-  console.log(historyWinner);
-  console.log(game.scoreboardX);
-  console.log(game.scoreboardO);
-// all history boards instead of the last winning move
-  if (( $ (e.target).is($('#history-c').children().children()
-      .not($('#history-c').children(':nth-last-child(1)').children()))) &&
-        (game.endGame == 1 || game.endGameH == 0)) {
-        $('#winner').empty();
-        game.endGame = 0;
-        game.endGameH = 1;
-        if (historyWinner == 'X wins!') {
-          game.scoreboardX -= 1;
-        } else if (historyWinner == 'O wins!') {
-          game.scoreboardO -= 1;
+  allGames[(getCurrentGame)].historyWinner = String($(this).parents().siblings('header').children('.scoreboard-c').children('.winner').attr('result'));
+// Update scoreboard selectors
+  function changeScoreOnHistoryClick() {
+// Empty scoreboard
+// Add new scoreboard + result
+// Add score value to 'score' attribute
+  _this.parents().siblings('header').children('.scoreboard-c')
+    .children('.scoreboard').children('.x-score').empty()
+      .append('X: ' + allGames[(getCurrentGame)].scoreboardX)
+        .attr('score', allGames[(getCurrentGame)].scoreboardX);
+  _this.parents().siblings('header').children('.scoreboard-c')
+    .children('.scoreboard').children('.o-score').empty()
+      .append('O: ' + allGames[(getCurrentGame)].scoreboardO)
+        .attr('score', allGames[(getCurrentGame)].scoreboardO);
+  }
+  var winner = $(this).parents().siblings('header').children('.scoreboard-c').children('.winner');
+// On clicking history change victory state and score if necessary
+// If game is won disable function for last history element
+// endGameH variable that temporarily holds game state
+  if (( $ (e.target).is($('.history-c').children().children()
+      .not($('.history-c').children(':nth-last-child(1)').children()))) &&
+        (allGames[(getCurrentGame)].endGame == 1 || allGames[(getCurrentGame)].endGameH == 0)) {
+// Remove winner status
+        winner.empty();
+        allGames[(getCurrentGame)].endGame = 0;
+        allGames[(getCurrentGame)].endGameH = 1;
+        if (allGames[(getCurrentGame)].historyWinner == 'X wins!') {
+          allGames[(getCurrentGame)].scoreboardX -= 1;
+        } else if (allGames[(getCurrentGame)].historyWinner == 'O wins!') {
+          allGames[(getCurrentGame)].scoreboardO -= 1;
         }
-        $('#scoreboard article').empty();
-        $('#scoreboard aside').empty();
-        $('#scoreboard article').append('X: ' + game.scoreboardX).attr('score', game.scoreboardX);
-        $('#scoreboard aside').append('O: ' + game.scoreboardO).attr('score', game.scoreboardO);
-        // alert(historyWinner);
-// winning move history board
-  } else if (($(e.target).is($('#history-c')
-      .children(':nth-last-child(1)').children())) &&
-      (game.endGame == 1 || game.endGameH == 1)) {
-        $('#winner').empty();
-        $('#winner').append(historyWinner);
-        if (historyWinner == 'X wins!' && game.endGameH == 1) {
-          game.scoreboardX += 1;
-        } else if (historyWinner == 'O wins!' && game.endGameH == 1) {
-          game.scoreboardO += 1;
+        var _this = $(this);
+        changeScoreOnHistoryClick();
+  } else if (($(e.target).is($('.history-c').children(':nth-last-child(1)').children())) &&
+      ( (allGames[(getCurrentGame)].endGame == 1 && allGames[(getCurrentGame)].endGameH == 0) || (allGames[(getCurrentGame)].endGame == 0 && allGames[(getCurrentGame)].endGameH == 1) )) {
+        winner.empty();
+        winner.append(allGames[(getCurrentGame)].historyWinner);
+        if (allGames[(getCurrentGame)].historyWinner == 'X wins!' && allGames[(getCurrentGame)].endGameH == 1) {
+          allGames[(getCurrentGame)].scoreboardX += 1;
+        } else if (allGames[(getCurrentGame)].historyWinner == 'O wins!' && allGames[(getCurrentGame)].endGameH == 1) {
+          allGames[(getCurrentGame)].scoreboardO += 1;
         }
-        game.endGameH = 0;
-        $('#scoreboard article').empty();
-        $('#scoreboard aside').empty();
-        $('#scoreboard article').append('X: ' + game.scoreboardX).attr('score', game.scoreboardX);
-        $('#scoreboard aside').append('O: ' + game.scoreboardO).attr('score', game.scoreboardO);
+        allGames[(getCurrentGame)].endGameH = 0;
+        var _this = $(this);
+        changeScoreOnHistoryClick();
   }
 });
 
- // $(this, '.history').children(':nth-child('i')');
+$('.add').click(function() {
+// New instance of grandGame
+  var newerGame = jQuery.extend(true, {}, grandGame);
+// Add new instanceof grandGame to allGames array
+  allGames.push(newerGame);
+// Game html sctructure
+  $('#main').append(
+    '<div class="game" game="'+ nrOfBoards +'">'+
+      '<header>'+
+        '<nav>'+
+          '<div class="nav-bar">'+
+            '<div class="nav-title">SIZE</div>'+
+            '<div class="nav-c nav-c">'+
+              '<div class="nav-items">3x3</div>'+
+              '<div class="nav-items">4x4</div>'+
+              '<div class="nav-items">5x5</div>'+
+              '<div class="nav-items">6x6</div>'+
+            '</div>'+
+          '</div>'+
+          '<div class="button reset">RESET</div>'+
+        '</nav>'+
+        '<div class="scoreboard-c">'+
+          '<div class="winner winner"></div>'+
+          '<div class="scoreboard scoreboard">'+
+            '<div class="x-score x-score" score=0 >X: 0</div>'+
+            '<div class="o-score o-score" score=0 >O: 0</div>'+
+          '</div>'+
+          '</div>'+
+      '</header>'+
+      '<div class="tic-tac-c">'+
+        '<div class="tic-tac-squares" state=""></div>'+
+        '<div class="tic-tac-squares" state=""></div>'+
+        '<div class="tic-tac-squares" state=""></div>'+
+        '<div class="tic-tac-squares" state=""></div>'+
+        '<div class="tic-tac-squares" state=""></div>'+
+        '<div class="tic-tac-squares" state=""></div>'+
+        '<div class="tic-tac-squares" state=""></div>'+
+        '<div class="tic-tac-squares" state=""></div>'+
+        '<div class="tic-tac-squares" state=""></div>'+
+      '</div>'+
+      '<div class="history-c">'+
+      '</div>'+
+    '</div>');
+// Increase game count
+    nrOfBoards += 1;
+});

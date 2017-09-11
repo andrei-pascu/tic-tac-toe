@@ -8,7 +8,7 @@ body, html {
 }
 header {
   width: 100%;
-  height: 150px;
+  height: 220px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -24,15 +24,23 @@ header {
   min-height: 100vh;
   background: linear-gradient(-105deg, turquoise, green);
 }
-#title {
-  /*margin: 50px 0 0 50px;*/
-  font-weight: 400;
-  font-family: cursive;
+.game {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  flex-direction: column;
+  margin: 0 0 20px 0;
 }
-#button {
+nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  flex-direction: row;
+}
+.button {
   height: 60px;
   width: 135px;
-  margin: 20px 0 0 0px;
+  margin: 40px 20px 20px 0px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -41,19 +49,88 @@ header {
   cursor: pointer;
   transition: 0.3s;
   font-family: impact;
-  font-size: 35px;
+  font-size: 30px;
+  user-select: none;
 }
-#button:hover {
+.button:hover {
   background-color: orangered;
 }
-#tic-tac-c {
-  margin: 50px 50px 30px 50px;
+.nav-bar {
+  height: 60px;
+  width: 140px;
+  margin: 40px 20px 20px 0px;
+  background-color: rgb(255, 151, 61);
+  border-radius: 5px;
+  cursor: pointer;
+  transition: 0.3s;
+  font-family: impact;
+  font-size: 30px;
+  position: relative;
+  user-select: none;
+}
+.nav-title {
+  width: 50px;
+  height: auto;
+  margin: 12px auto 0 auto;
+}
+.nav-c {
+  position: absolute;
+  top: 60px;
+  left: 0;
+  width: 140px;
+  height: auto;
+  perspective: 500px;
+}
+.nav-items {
+  width: 140px;
+  height: auto;
+  padding: 5px auto 5px auto;
+  transition: 0.3s;
+  display: none;
+  background-color: rgb(255, 151, 61);
+  transform-origin: top;
+  opacity: 0;
+  display: none;
+  align-items: center;
+  justify-content: center;
+}
+
+.nav-items:nth-child(4) {
+  border-radius: 0 0 5px 5px;
+}
+.nav-bar:hover > .nav-c .nav-items {
+  display: flex;
+}
+.nav-bar:hover {
+  border-radius: 5px 5px 0 0 ;
+}
+.nav-items:hover {
+  background-color: orangered;
+}
+.nav-bar:hover > .nav-c .nav-items:nth-child(1) {
+  animation: drop 0.3s 0s    forwards;
+}
+.nav-bar:hover > .nav-c .nav-items:nth-child(2) {
+  animation: drop 0.3s 0.15s forwards;
+}
+.nav-bar:hover > .nav-c .nav-items:nth-child(3) {
+  animation: drop 0.3s 0.3s  forwards;
+}
+.nav-bar:hover > .nav-c .nav-items:nth-child(4) {
+  animation: drop 0.3s 0.45s forwards;
+}
+@keyframes drop {
+  0%   {opacity: 0; transform: rotateX(-90deg)}
+  100% {opacity: 1; transform: rotateX(0deg)}
+}
+.tic-tac-c {
+  margin: 40px 20px 30px 0px;
   display: flex;
   flex-wrap: wrap;
   height: 210px;
   width: 210px;
 }
-#tic-tac-c div {
+.tic-tac-c div {
   height: 70px;
   width: 70px;
   border: 3px solid purple;
@@ -65,10 +142,10 @@ header {
   justify-content: center;
   transition: 0.2s;
 }
-#tic-tac-c div:hover {
+.tic-tac-c div:hover {
   background-color: lightgreen;
 }
-#history-c {
+.history-c {
   /*margin: 50px;*/
   display: flex;
   justify-content: center;
@@ -104,11 +181,12 @@ header {
 }
 
 
-#scoreboard-c {
-  position: absolute;
+.scoreboard-c {
+  /*position: absolute;*/
   top: 0;
   left: 0;
-  width: 100%;
+  height: 200px;
+  width: 400px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -116,21 +194,27 @@ header {
   pointer-events: none;
 }
 
-#winner {
+.winner {
   height: 250px;
   width: 250px;
   font-size: 3em;
   display: flex;
-  align-items: flex-end;
-  justify-content: flex-end;
+  align-items: center;
+  justify-content: center;
 }
 
-#scoreboard {
+.scoreboard {
   height: 300px;
   width: 300px;
   font-size: 3em;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: flex-end;
+  justify-content: center;
 }
+
+/*@media only screen and (max-width: 1000px) and (pointer:fine) {
+  .winner {
+    margin-left: -10vw;
+  }
+}*/
