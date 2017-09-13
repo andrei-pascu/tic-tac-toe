@@ -126,18 +126,17 @@ $('body').on('click', '.tic-tac-squares', function() {
           }
         }
       }
-    };
 
+      $(this).parents().siblings(".history-c").append('<div class="history"></div>');
+      var containerWidth = parseInt($(this).parents().siblings(".history-c").children(".history").css('width'));
+      containerWidth = (35 * (Math.sqrt(allGames[(getCurrentGame)].actualSize))) + 'px';
+      $(this).parents().siblings(".history-c").children().css({'width': containerWidth });
+      // alert(elementsWidth);
 
-    $(this).parents().siblings(".history-c").append('<div class="history"></div>');
-    var containerWidth = parseInt($(this).parents().siblings(".history-c").children(".history").css('width'));
-    containerWidth = (35 * (Math.sqrt(allGames[(getCurrentGame)].actualSize))) + 'px';
-    $(this).parents().siblings(".history-c").children().css({'width': containerWidth });
-    // alert(elementsWidth);
-
-    for ( let i = 0; i < allGames[(getCurrentGame)].actualSize; i++ ) {
-      $(this).parents().siblings(".history-c").children(':nth-last-child(1)')
-      .append('<div stateh ='+ allGames[(getCurrentGame)].divs[i] + '>' + allGames[(getCurrentGame)].divs[i] + '</div>');
+      for ( let i = 0; i < allGames[(getCurrentGame)].actualSize; i++ ) {
+        $(this).parents().siblings(".history-c").children(':nth-last-child(1)')
+        .append('<div stateh ='+ allGames[(getCurrentGame)].divs[i] + '>' + allGames[(getCurrentGame)].divs[i] + '</div>');
+      }
     }
   }
 });
