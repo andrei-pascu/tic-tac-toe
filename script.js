@@ -124,7 +124,6 @@ $('body').on('click', '.tic-tac-squares', function() {
                     allGames[(getCurrentGame)].tie += 100;
                     allGames[(getCurrentGame)].endGame = 1;
           }
-          break;
         }
       }
     };
