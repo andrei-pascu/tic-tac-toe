@@ -124,6 +124,7 @@ $('body').on('click', '.tic-tac-squares', function() {
                     allGames[(getCurrentGame)].tie += 100;
                     allGames[(getCurrentGame)].endGame = 1;
           }
+          break;
         }
       }
     };
@@ -297,6 +298,9 @@ $('body').on('click', '.nav-items', function() {
   allGames[(getCurrentGame)].actualSize = size * size;
   var gameContainer = gameLevelParents.siblings('.tic-tac-c');
   var containerWidth = parseInt($('.tic-tac-c').children().css('width'));
+  console.log(size);
+  console.log(containerWidth);
+
   var containerAdjustedWidth = size * containerWidth;
   gameContainer.empty();
   gameContainer.css({'width': containerAdjustedWidth})
