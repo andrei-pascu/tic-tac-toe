@@ -88,6 +88,7 @@ $('body').on('click', '.tic-tac-squares', function() {
       }
 // Create shorter version of rows
       var rows = allGames[(getCurrentGame)].rows;
+loop1:
       for ( let i = 0; i < curntS; i++) {
         for ( let j = 0; j < curntS; j++) {
           if ( (j == 0) || (j == (curntS-1))  ) { continue; }
@@ -107,6 +108,7 @@ $('body').on('click', '.tic-tac-squares', function() {
             allGames[(getCurrentGame)].scoreboardX += 1;
             $(this).parents().siblings('header').children('.scoreboard-c').children('.scoreboard').children('.x-score').empty()
             .append('X: ' + allGames[(getCurrentGame)].scoreboardX).attr('score', allGames[(getCurrentGame)].scoreboardX);
+            break loop1;
           } else if ( (((rows[i][j-1])   == 'O') && ((rows[i][j]) == 'O') && ((rows[i][j+1]) ==   'O')) ||
                       (((rows[j-1][i])   == 'O') && ((rows[j][i]) == 'O') && ((rows[j+1][i]) ==   'O')) ||
                       (((rows[j-1][i-1]) == 'O') && ((rows[j][i]) == 'O') && ((rows[j+1][i+1]) == 'O')) ||
@@ -118,6 +120,7 @@ $('body').on('click', '.tic-tac-squares', function() {
             allGames[(getCurrentGame)].scoreboardO += 1;
             $(this).parents().siblings('header').children('.scoreboard-c').children('.scoreboard').children('.o-score').empty()
             .append('O: ' + allGames[(getCurrentGame)].scoreboardO).attr('score', allGames[(getCurrentGame)].scoreboardO);
+            break loop1;
           } else if (allGames[(getCurrentGame)].tie == allGames[(getCurrentGame)].actualSize) {
                     $(this).parents().siblings('header').children('.scoreboard-c').children('.winner').append('Tie').attr('result', 'Tie');
             // In case of win at last move
